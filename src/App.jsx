@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  useMap,
-} from "https://cdn.esm.sh/react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import "./index.css";
 
 function App() {
   const [IpInput, setIpInput] = useState();
-  const [ipAddress, setIpAdress] = useState("");
+  const [ipAddress, setIpAdress] = useState("1.1.1.1");
   const [location, setLocation] = useState("");
-  const [longitude, setLongitude] = useState("");
-  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("-118.24549865722656");
+  const [latitude, setLatitude] = useState("34.053611755371094");
   const [timezone, setTimezone] = useState("");
+  const [showMap, setShowMap] = useState(true);
+  const [center, setCenter] = useState([latitude, longitude]);
 
   async function getLocation() {
     const response = await fetch(
@@ -22,6 +21,7 @@ function App() {
     setLongitude(data.data.location.longitude);
     setLatitude(data.data.location.latitude);
     setTimezone(data.data.timezone.code);
+    setCenter([data.data.location.latitude, data.data.location.longitude]);
   }
 
   function handleChange(e) {
@@ -31,12 +31,19 @@ function App() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    setShowMap(true);
     setIpInput(ipAddress);
   }
 
   useEffect(() => {
-    getLocation();
+    // getLocation();
   }, [IpInput]);
+
+  function ChangeView({ center }) {
+    const map = useMap();
+    map.setView(center);
+    return null;
+  }
 
   return (
     <>
@@ -45,7 +52,6 @@ function App() {
         <form onSubmit={handleSubmit}>
           <input
             className="w-10/12 min-h-[48px] rounded-l-2xl pl-5"
-            // type={'number'}
             onChange={handleChange}
           />
           <button
@@ -60,6 +66,23 @@ function App() {
         <div>{location}</div>
         <div>{longitude}</div>
         <div>{latitude}</div>
+        <div>{center}</div>
+        <div className="w-[300px] h-[300px]">
+          {showMap && (
+            <MapContainer center={center} zoom={13} scrollWheelZoom={false}>
+              <ChangeView center={center} />
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              <Marker position={center}>
+                <Popup>
+                  A pretty CSS3 popup. <br /> Easily customizable.
+                </Popup>
+              </Marker>
+            </MapContainer>
+          )}
+        </div>
       </div>
     </>
   );
