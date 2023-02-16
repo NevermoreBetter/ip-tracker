@@ -115,9 +115,7 @@ function App() {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <Marker position={center}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
+            <Popup>Ip Location</Popup>
           </Marker>
         </MapContainer>
       </div>
