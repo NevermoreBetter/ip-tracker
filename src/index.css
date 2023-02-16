@@ -3,6 +3,28 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer {
+  .info {
+    display: flex;
+    justify-content: center;
+    gap: 5%;
+  }
+
+  h1 {
+    margin: 0 !important;
+  }
+
+  h6 {
+    opacity: 0.5;
+    text-transform: uppercase;
+    font-size: 12px !important;
+  }
+
+  p {
+    font-weight: bold;
+  }
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -18,7 +40,9 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
-
+#root {
+  width: 100%;
+}
 a {
   font-weight: 500;
   color: #646cff;
