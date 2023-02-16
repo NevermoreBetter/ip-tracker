@@ -48,7 +48,7 @@ function App() {
   }
 
   useEffect(() => {
-    // getLocation();
+    getLocation();
   }, [IpInput]);
 
   function ChangeView({ center }) {
